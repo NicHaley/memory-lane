@@ -14,7 +14,7 @@ export const TransactionIsolationLevelSchema = z.enum(['Serializable']);
 
 export const UserScalarFieldEnumSchema = z.enum(['id','email','name']);
 
-export const MemoryScalarFieldEnumSchema = z.enum(['id','name','description','timestamp','userId','createdAt','updatedAt']);
+export const MemoryScalarFieldEnumSchema = z.enum(['id','name','description','timestamp','image','userId','createdAt','updatedAt']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
 
@@ -57,6 +57,7 @@ export const MemorySchema = z.object({
   name: z.string().min(1).max(255),
   description: z.string(),
   timestamp: z.coerce.date(),
+  image: z.string().nullable(),
   userId: z.string().nullable(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
@@ -127,6 +128,7 @@ export const MemorySelectSchema: z.ZodType<Prisma.MemorySelect> = z.object({
   name: z.boolean().optional(),
   description: z.boolean().optional(),
   timestamp: z.boolean().optional(),
+  image: z.boolean().optional(),
   userId: z.boolean().optional(),
   createdAt: z.boolean().optional(),
   updatedAt: z.boolean().optional(),
@@ -159,6 +161,7 @@ export const CreateManyMemoryAndReturnOutputTypeSelectSchema: z.ZodType<Prisma.C
   name: z.boolean().optional(),
   description: z.boolean().optional(),
   timestamp: z.boolean().optional(),
+  image: z.boolean().optional(),
   userId: z.boolean().optional(),
   createdAt: z.boolean().optional(),
   updatedAt: z.boolean().optional(),
@@ -235,6 +238,7 @@ export const MemoryWhereInputSchema: z.ZodType<Prisma.MemoryWhereInput> = z.obje
   name: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   description: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   timestamp: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
+  image: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   userId: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   updatedAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
@@ -246,6 +250,7 @@ export const MemoryOrderByWithRelationInputSchema: z.ZodType<Prisma.MemoryOrderB
   name: z.lazy(() => SortOrderSchema).optional(),
   description: z.lazy(() => SortOrderSchema).optional(),
   timestamp: z.lazy(() => SortOrderSchema).optional(),
+  image: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   userId: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
@@ -263,6 +268,7 @@ export const MemoryWhereUniqueInputSchema: z.ZodType<Prisma.MemoryWhereUniqueInp
   name: z.union([ z.lazy(() => StringFilterSchema),z.string().min(1).max(255) ]).optional(),
   description: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   timestamp: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
+  image: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   userId: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   updatedAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
@@ -274,6 +280,7 @@ export const MemoryOrderByWithAggregationInputSchema: z.ZodType<Prisma.MemoryOrd
   name: z.lazy(() => SortOrderSchema).optional(),
   description: z.lazy(() => SortOrderSchema).optional(),
   timestamp: z.lazy(() => SortOrderSchema).optional(),
+  image: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   userId: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
@@ -290,6 +297,7 @@ export const MemoryScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.Memory
   name: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
   description: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
   timestamp: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
+  image: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
   userId: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
   createdAt: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
   updatedAt: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
@@ -346,6 +354,7 @@ export const MemoryCreateInputSchema: z.ZodType<Prisma.MemoryCreateInput> = z.ob
   name: z.string().min(1).max(255),
   description: z.string(),
   timestamp: z.coerce.date(),
+  image: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
   user: z.lazy(() => UserCreateNestedOneWithoutMemoriesInputSchema).optional()
@@ -356,6 +365,7 @@ export const MemoryUncheckedCreateInputSchema: z.ZodType<Prisma.MemoryUncheckedC
   name: z.string().min(1).max(255),
   description: z.string(),
   timestamp: z.coerce.date(),
+  image: z.string().optional().nullable(),
   userId: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional()
@@ -366,6 +376,7 @@ export const MemoryUpdateInputSchema: z.ZodType<Prisma.MemoryUpdateInput> = z.ob
   name: z.union([ z.string().min(1).max(255),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   description: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   timestamp: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  image: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   user: z.lazy(() => UserUpdateOneWithoutMemoriesNestedInputSchema).optional()
@@ -376,6 +387,7 @@ export const MemoryUncheckedUpdateInputSchema: z.ZodType<Prisma.MemoryUncheckedU
   name: z.union([ z.string().min(1).max(255),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   description: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   timestamp: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  image: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   userId: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
@@ -386,6 +398,7 @@ export const MemoryCreateManyInputSchema: z.ZodType<Prisma.MemoryCreateManyInput
   name: z.string().min(1).max(255),
   description: z.string(),
   timestamp: z.coerce.date(),
+  image: z.string().optional().nullable(),
   userId: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional()
@@ -396,6 +409,7 @@ export const MemoryUpdateManyMutationInputSchema: z.ZodType<Prisma.MemoryUpdateM
   name: z.union([ z.string().min(1).max(255),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   description: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   timestamp: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  image: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
 }).strict() as z.ZodType<Prisma.MemoryUpdateManyMutationInput>;
@@ -405,6 +419,7 @@ export const MemoryUncheckedUpdateManyInputSchema: z.ZodType<Prisma.MemoryUnchec
   name: z.union([ z.string().min(1).max(255),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   description: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   timestamp: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  image: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   userId: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
@@ -509,6 +524,7 @@ export const MemoryCountOrderByAggregateInputSchema: z.ZodType<Prisma.MemoryCoun
   name: z.lazy(() => SortOrderSchema).optional(),
   description: z.lazy(() => SortOrderSchema).optional(),
   timestamp: z.lazy(() => SortOrderSchema).optional(),
+  image: z.lazy(() => SortOrderSchema).optional(),
   userId: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional()
@@ -519,6 +535,7 @@ export const MemoryMaxOrderByAggregateInputSchema: z.ZodType<Prisma.MemoryMaxOrd
   name: z.lazy(() => SortOrderSchema).optional(),
   description: z.lazy(() => SortOrderSchema).optional(),
   timestamp: z.lazy(() => SortOrderSchema).optional(),
+  image: z.lazy(() => SortOrderSchema).optional(),
   userId: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional()
@@ -529,6 +546,7 @@ export const MemoryMinOrderByAggregateInputSchema: z.ZodType<Prisma.MemoryMinOrd
   name: z.lazy(() => SortOrderSchema).optional(),
   description: z.lazy(() => SortOrderSchema).optional(),
   timestamp: z.lazy(() => SortOrderSchema).optional(),
+  image: z.lazy(() => SortOrderSchema).optional(),
   userId: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional()
@@ -621,6 +639,10 @@ export const DateTimeFieldUpdateOperationsInputSchema: z.ZodType<Prisma.DateTime
   set: z.coerce.date().optional()
 }).strict() as z.ZodType<Prisma.DateTimeFieldUpdateOperationsInput>;
 
+export const NullableStringFieldUpdateOperationsInputSchema: z.ZodType<Prisma.NullableStringFieldUpdateOperationsInput> = z.object({
+  set: z.string().optional().nullable()
+}).strict() as z.ZodType<Prisma.NullableStringFieldUpdateOperationsInput>;
+
 export const UserUpdateOneWithoutMemoriesNestedInputSchema: z.ZodType<Prisma.UserUpdateOneWithoutMemoriesNestedInput> = z.object({
   create: z.union([ z.lazy(() => UserCreateWithoutMemoriesInputSchema),z.lazy(() => UserUncheckedCreateWithoutMemoriesInputSchema) ]).optional(),
   connectOrCreate: z.lazy(() => UserCreateOrConnectWithoutMemoriesInputSchema).optional(),
@@ -630,10 +652,6 @@ export const UserUpdateOneWithoutMemoriesNestedInputSchema: z.ZodType<Prisma.Use
   connect: z.lazy(() => UserWhereUniqueInputSchema).optional(),
   update: z.union([ z.lazy(() => UserUpdateToOneWithWhereWithoutMemoriesInputSchema),z.lazy(() => UserUpdateWithoutMemoriesInputSchema),z.lazy(() => UserUncheckedUpdateWithoutMemoriesInputSchema) ]).optional(),
 }).strict() as z.ZodType<Prisma.UserUpdateOneWithoutMemoriesNestedInput>;
-
-export const NullableStringFieldUpdateOperationsInputSchema: z.ZodType<Prisma.NullableStringFieldUpdateOperationsInput> = z.object({
-  set: z.string().optional().nullable()
-}).strict() as z.ZodType<Prisma.NullableStringFieldUpdateOperationsInput>;
 
 export const NestedStringFilterSchema: z.ZodType<Prisma.NestedStringFilter> = z.object({
   equals: z.string().optional(),
@@ -749,6 +767,7 @@ export const MemoryCreateWithoutUserInputSchema: z.ZodType<Prisma.MemoryCreateWi
   name: z.string().min(1).max(255),
   description: z.string(),
   timestamp: z.coerce.date(),
+  image: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional()
 }).strict() as z.ZodType<Prisma.MemoryCreateWithoutUserInput>;
@@ -758,6 +777,7 @@ export const MemoryUncheckedCreateWithoutUserInputSchema: z.ZodType<Prisma.Memor
   name: z.string().min(1).max(255),
   description: z.string(),
   timestamp: z.coerce.date(),
+  image: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional()
 }).strict() as z.ZodType<Prisma.MemoryUncheckedCreateWithoutUserInput>;
@@ -795,6 +815,7 @@ export const MemoryScalarWhereInputSchema: z.ZodType<Prisma.MemoryScalarWhereInp
   name: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   description: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   timestamp: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
+  image: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   userId: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   updatedAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
@@ -845,6 +866,7 @@ export const MemoryCreateManyUserInputSchema: z.ZodType<Prisma.MemoryCreateManyU
   name: z.string().min(1).max(255),
   description: z.string(),
   timestamp: z.coerce.date(),
+  image: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional()
 }).strict() as z.ZodType<Prisma.MemoryCreateManyUserInput>;
@@ -854,6 +876,7 @@ export const MemoryUpdateWithoutUserInputSchema: z.ZodType<Prisma.MemoryUpdateWi
   name: z.union([ z.string().min(1).max(255),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   description: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   timestamp: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  image: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
 }).strict() as z.ZodType<Prisma.MemoryUpdateWithoutUserInput>;
@@ -863,6 +886,7 @@ export const MemoryUncheckedUpdateWithoutUserInputSchema: z.ZodType<Prisma.Memor
   name: z.union([ z.string().min(1).max(255),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   description: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   timestamp: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  image: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
 }).strict() as z.ZodType<Prisma.MemoryUncheckedUpdateWithoutUserInput>;
@@ -872,6 +896,7 @@ export const MemoryUncheckedUpdateManyWithoutUserInputSchema: z.ZodType<Prisma.M
   name: z.union([ z.string().min(1).max(255),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   description: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   timestamp: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
+  image: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
 }).strict() as z.ZodType<Prisma.MemoryUncheckedUpdateManyWithoutUserInput>;

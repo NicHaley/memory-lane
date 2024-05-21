@@ -1,5 +1,4 @@
 import { db } from "@repo/database";
-import { Button } from "@repo/ui/components/button";
 import {
   Dialog,
   DialogContent,
@@ -7,7 +6,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@repo/ui/components/dialog";
+import { Input } from "@repo/ui/components/input";
 import { uploadImage } from "./actions";
+import { MemoryForm } from "./memory-form";
+import { Button } from "@repo/ui/components/button";
 
 export default async function Page({ params }: { params: { userId: string } }) {
   const user = await db.user.findUnique({
@@ -43,11 +45,7 @@ export default async function Page({ params }: { params: { userId: string } }) {
             </DialogDescription> */}
           </DialogHeader>
           <div className="flex flex-col">
-            <form action={uploadImage}>
-              <label htmlFor="image">Image</label>
-              <input type="file" id="image" name="image" required />
-              <button>Upload</button>
-            </form>
+            <MemoryForm />
           </div>
         </DialogContent>
       </Dialog>
