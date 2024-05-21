@@ -21,16 +21,18 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/client.ts
 var client_exports = {};
 __export(client_exports, {
-  prisma: () => prisma
+  db: () => db
 });
 module.exports = __toCommonJS(client_exports);
 var import_client = require("@prisma/client");
 __reExport(client_exports, require("@prisma/client"), module.exports);
-var prisma = global.prisma || new import_client.PrismaClient();
+var db = global.db || new import_client.PrismaClient({
+  log: ["query"]
+});
 if (process.env.NODE_ENV !== "production")
-  global.prisma = prisma;
+  global.db = db;
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  prisma,
+  db,
   ...require("@prisma/client")
 });

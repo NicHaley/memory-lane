@@ -20,13 +20,15 @@ var __reExport = (target, mod, secondTarget) => (__copyProps(target, mod, "defau
 // src/client.ts
 var client_exports = {};
 __export(client_exports, {
-  prisma: () => prisma
+  db: () => db
 });
 var import_client = require("@prisma/client");
 __reExport(client_exports, require("@prisma/client"));
-var prisma = global.prisma || new import_client.PrismaClient();
+var db = global.db || new import_client.PrismaClient({
+  log: ["query"]
+});
 if (process.env.NODE_ENV !== "production")
-  global.prisma = prisma;
+  global.db = db;
 
 // src/seed.ts
 var DEFAULT_USERS = [
@@ -40,7 +42,7 @@ var DEFAULT_USERS = [
   try {
     await Promise.all(
       DEFAULT_USERS.map(
-        (user) => prisma.user.upsert({
+        (user) => db.user.upsert({
           where: {
             email: user.email
           },
@@ -57,6 +59,6 @@ var DEFAULT_USERS = [
     console.error(error);
     process.exit(1);
   } finally {
-    await prisma.$disconnect();
+    await db.$disconnect();
   }
 })();
