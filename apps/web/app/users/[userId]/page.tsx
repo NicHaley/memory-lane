@@ -3,12 +3,11 @@ import { Button } from "@repo/ui/components/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@repo/ui/components/dialog";
-import { Uploader } from "~/components/uploader";
+import { uploadImage } from "./actions";
 
 export default async function Page({ params }: { params: { userId: string } }) {
   const user = await db.user.findUnique({
@@ -43,8 +42,12 @@ export default async function Page({ params }: { params: { userId: string } }) {
               account and remove your data from our servers.
             </DialogDescription> */}
           </DialogHeader>
-          <div className="h-[200px] flex flex-col">
-            <Uploader />
+          <div className="flex flex-col">
+            <form action={uploadImage}>
+              <label htmlFor="image">Image</label>
+              <input type="file" id="image" name="image" required />
+              <button>Upload</button>
+            </form>
           </div>
         </DialogContent>
       </Dialog>
