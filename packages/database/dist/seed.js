@@ -35,7 +35,9 @@ var DEFAULT_USERS = [
   // Add your own user to pre-populate the database with
   {
     name: "Tim Apple",
-    email: "tim@apple.com"
+    email: "tim@apple.com",
+    image: "https://ypn44edblhlmrmwr.public.blob.vercel-storage.com/Pwq-1eJc_400x400-XuMV6VOpSU1vghiKAH1n9v7rjCbmGg.jpg",
+    blurb: "CEO of Apple Inc."
   }
 ];
 (async () => {

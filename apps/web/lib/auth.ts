@@ -8,7 +8,7 @@ export async function getCurrentUser() {
   // This returns Tim Apple
   return db.user.findUnique({
     where: {
-      id: "clwgrnvwz0000tvdgnl069vem",
+      id: "clwha1rzr0000bwd21qcemsqa",
     },
   });
 }

@@ -7,6 +7,9 @@ const DEFAULT_USERS = [
   {
     name: "Tim Apple",
     email: "tim@apple.com",
+    image:
+      "https://ypn44edblhlmrmwr.public.blob.vercel-storage.com/Pwq-1eJc_400x400-XuMV6VOpSU1vghiKAH1n9v7rjCbmGg.jpg",
+    blurb: "CEO of Apple Inc.",
   },
 ] as Array<User>;
 

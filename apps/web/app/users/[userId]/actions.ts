@@ -12,8 +12,6 @@ export const createMemory = action(
   async ({ name, description, image, timestamp, userId }) => {
     let blob: PutBlobResult | null = null;
 
-    console.log(22222222, image);
-
     const currentUser = await getCurrentUser();
 
     if (!currentUser) {

@@ -26,6 +26,8 @@ model User {
   email    String   @unique
   /// @zod.string.min(3).max(64)
   name     String
+  blurb    String?
+  image    String?
   memories Memory[]
 }
 

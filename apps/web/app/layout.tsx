@@ -13,7 +13,9 @@ export default function RootLayout({
   return (
     <html className="h-full" lang="en">
       <body className={cn("h-full", inter.className)}>
-        {children}
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 lg:pt-8 pt-4">
+          {children}
+        </div>
         <Toaster />
       </body>
     </html>
