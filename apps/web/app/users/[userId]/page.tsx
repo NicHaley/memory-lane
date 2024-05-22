@@ -9,6 +9,7 @@ import {
 import { MemoryForm } from "./memory-form";
 import Image from "next/image";
 import { Button } from "@repo/ui/components/button";
+import { format } from "date-fns";
 
 export default async function Page({
   params,
@@ -63,7 +64,7 @@ export default async function Page({
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Create a Memory</DialogTitle>
+                <DialogTitle>Add a memory</DialogTitle>
                 {/* <DialogDescription>
                   This action cannot be undone. This will permanently delete your
                   account and remove your data from our servers.
@@ -76,19 +77,30 @@ export default async function Page({
           </Dialog>
         </div>
         {user.memories.length ? (
-          <ul>
+          <ul className="flex flex-col gap-24">
             {user.memories.map((memory) => (
-              <li key={memory.id}>
-                <h2>{memory.name}</h2>
-                <p>{memory.description}</p>
-                {memory.image ? (
-                  <Image
-                    src={memory.image}
-                    alt={memory.name}
-                    width={300}
-                    height={300}
-                  />
-                ) : null}
+              <li className="" key={memory.id}>
+                <div className="mb-2 text-gray-600">
+                  {format(new Date(memory.timestamp), "MMMM do, yyyy")}
+                </div>
+                <div className="flex gap-8 border shadow rounded-lg overflow-hidden p-4">
+                  {memory.image ? (
+                    <div className="h-[140px] w-[140px] overflow-hidden rounded-lg">
+                      <Image
+                        src={memory.image}
+                        alt={memory.name}
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        style={{ width: "100%", height: "auto" }}
+                      />
+                    </div>
+                  ) : null}
+                  <div className="prose">
+                    <h2>{memory.name}</h2>
+                    <p>{memory.description}</p>
+                  </div>
+                </div>
               </li>
             ))}
           </ul>

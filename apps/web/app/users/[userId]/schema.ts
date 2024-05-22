@@ -11,7 +11,7 @@ const ACCEPTED_IMAGE_TYPES = [
 
 export const createMemorySchema = z.object({
   name: z.string().min(3).max(64),
-  description: z.string().max(64),
+  description: z.string(),
   timestamp: z.date(),
   userId: z.string(),
   image: z
@@ -29,7 +29,7 @@ export const createMemorySchema = z.object({
 
 export const createMemoryFormDataSchema = zfd.formData({
   name: zfd.text(z.string().min(3).max(64)),
-  description: zfd.text(z.string().max(64)),
+  description: zfd.text(z.string()),
   timestamp: zfd.text(z.string()),
   userId: zfd.text(z.string()),
   image: zfd.file(
