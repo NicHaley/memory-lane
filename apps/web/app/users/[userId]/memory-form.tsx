@@ -18,6 +18,7 @@ import {
   FormMessage,
   Form,
   zodResolver,
+  useController,
 } from "@repo/ui/components/form";
 import { Input } from "@repo/ui/components/input";
 import { Button } from "@repo/ui/components/button";
@@ -25,14 +26,19 @@ import { useAction } from "next-safe-action/hooks";
 import { createMemorySchema, type CreateMemorySchema } from "./schema";
 import { createMemory } from "./actions";
 import { toast } from "@repo/ui/components/toaster";
+import { Spinner } from "@repo/ui/components/spinner";
 
-interface MemoryFormProps {}
+interface MemoryFormProps {
+  userId: string;
+}
 
-export function MemoryForm({}: MemoryFormProps) {
+export function MemoryForm({ userId }: MemoryFormProps) {
   const memoryForm = useForm<CreateMemorySchema>({
     mode: "onChange",
     resolver: zodResolver(createMemorySchema),
-    defaultValues: {},
+    defaultValues: {
+      userId,
+    },
   });
 
   const { execute, status } = useAction(createMemory, {
@@ -45,9 +51,28 @@ export function MemoryForm({}: MemoryFormProps) {
     },
   });
 
+  /**
+   * Workaround to get the proper file object
+   */
+  const { ref, ...imageField } = memoryForm.register("image");
+
+  const onSubmit = (data: CreateMemorySchema) => {
+    console.log(data);
+
+    const formData = new FormData();
+
+    formData.append("image", data.image[0] as File);
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("timestamp", data.timestamp.toISOString());
+    formData.append("userId", data.userId);
+
+    execute(formData);
+  };
+
   return (
     <Form {...memoryForm}>
-      <form onSubmit={memoryForm.handleSubmit(execute)}>
+      <form className="space-y-4" onSubmit={memoryForm.handleSubmit(onSubmit)}>
         {/* Name */}
         <FormField
           control={memoryForm.control}
@@ -86,8 +111,13 @@ export function MemoryForm({}: MemoryFormProps) {
             <FormItem className="flex-1">
               <FormLabel>Image</FormLabel>
               <FormControl>
-                {/* @ts-expect-error -- Correct type */}
-                <Input placeholder="" {...field} type="file" />
+                <Input
+                  placeholder=""
+                  ref={ref}
+                  {...imageField}
+                  type="file"
+                  id="image"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -139,7 +169,11 @@ export function MemoryForm({}: MemoryFormProps) {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <div className="pt-2 flex justify-end">
+          <Button disabled={status === "executing"} type="submit">
+            {status === "executing" ? <Spinner /> : "Submit"}
+          </Button>
+        </div>
       </form>
     </Form>
   );

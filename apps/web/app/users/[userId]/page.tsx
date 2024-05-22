@@ -6,12 +6,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@repo/ui/components/dialog";
-import { Input } from "@repo/ui/components/input";
-import { uploadImage } from "./actions";
 import { MemoryForm } from "./memory-form";
-import { Button } from "@repo/ui/components/button";
+import Image from "next/image";
 
-export default async function Page({ params }: { params: { userId: string } }) {
+export default async function Page({
+  params,
+}: {
+  params: { userId?: string };
+}) {
   const user = await db.user.findUnique({
     where: {
       id: params.userId,
@@ -34,7 +36,8 @@ export default async function Page({ params }: { params: { userId: string } }) {
       <h1>{user.name}</h1>
       <Dialog>
         <DialogTrigger>
-          <Button variant="default">Add a memory</Button>
+          Add a memory
+          {/* <Button variant="default">Add a memory</Button> */}
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
@@ -45,10 +48,26 @@ export default async function Page({ params }: { params: { userId: string } }) {
             </DialogDescription> */}
           </DialogHeader>
           <div className="flex flex-col">
-            <MemoryForm />
+            <MemoryForm userId={user.id} />
           </div>
         </DialogContent>
       </Dialog>
+      <ul>
+        {user.memories.map((memory) => (
+          <li key={memory.id}>
+            <h2>{memory.name}</h2>
+            <p>{memory.description}</p>
+            {memory.image ? (
+              <Image
+                src={memory.image}
+                alt={memory.name}
+                width={300}
+                height={300}
+              />
+            ) : null}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

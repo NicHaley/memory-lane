@@ -4,28 +4,32 @@ import { type PutBlobResult, put } from "@vercel/blob";
 import { db } from "@repo/database";
 import { action } from "~/lib/safe-action";
 import { revalidatePath } from "next/cache";
-import { createMemorySchema } from "./schema";
-
-export async function uploadImage(formData: FormData) {
-  const imageFile = formData.get("image") as File;
-  const blob = await put(imageFile.name, imageFile, {
-    access: "public",
-  });
-  revalidatePath("/");
-  return blob;
-}
+import { createMemoryFormDataSchema } from "./schema";
+import { getCurrentUser } from "~/lib/auth";
 
 export const createMemory = action(
-  createMemorySchema,
-  async ({ name, description, image, timestamp }) => {
+  createMemoryFormDataSchema,
+  async ({ name, description, image, timestamp, userId }) => {
     let blob: PutBlobResult | null = null;
+
+    console.log(22222222, image);
+
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser) {
+      throw new Error("User not found");
+    }
+
+    if (currentUser.id !== userId) {
+      throw new Error(
+        "You are not authorized to create a memory for this user."
+      );
+    }
 
     if (image) {
       blob = await put(image.name, image, {
         access: "public",
       });
-
-      console.log(11111, blob);
     }
 
     await db.memory.create({
@@ -34,7 +38,10 @@ export const createMemory = action(
         description,
         image: blob?.url,
         timestamp,
+        userId: currentUser.id,
       },
     });
+
+    revalidatePath(`/users/${userId}`);
   }
 );
