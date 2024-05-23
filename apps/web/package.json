@@ -23,6 +23,7 @@
     "zod-form-data": "^2.0.2"
   },
   "devDependencies": {
+    "@prisma/nextjs-monorepo-workaround-plugin": "^5.14.0",
     "@repo/database": "workspace:*",
     "@repo/eslint-config": "workspace:*",
     "@repo/lib": "workspace:*",
