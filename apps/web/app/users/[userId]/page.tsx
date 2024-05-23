@@ -11,6 +11,8 @@ import Image from "next/image";
 import { Button } from "@repo/ui/components/button";
 import { format } from "date-fns";
 import { BoxIcon } from "lucide-react";
+import { getCurrentUser } from "~/lib/auth";
+import Link from "next/link";
 
 export default async function Page({
   params,
@@ -30,36 +32,39 @@ export default async function Page({
     },
   });
 
+  const currentUser = await getCurrentUser();
+
   if (!user) {
     return <h1>User not found</h1>;
   }
 
+  const canEdit = currentUser?.id === user.id;
+
   return (
     <div>
-      <div className="flex justify-between">
-        <BoxIcon size={32} />
-        <div className="ml-auto mb-16">
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button>Add a memory</Button>
-              {/* <Button variant="default">Add a memory</Button> */}
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Add a memory</DialogTitle>
-                {/* <DialogDescription>
-                  This action cannot be undone. This will permanently delete your
-                  account and remove your data from our servers.
-                </DialogDescription> */}
-              </DialogHeader>
-              <div className="flex flex-col">
-                <MemoryForm userId={user.id} />
-              </div>
-            </DialogContent>
-          </Dialog>
-        </div>
-      </div>
-      <div className="flex flex-col gap-32 md:flex-row">
+      <nav className="flex justify-between">
+        <Link href="/">
+          <BoxIcon size={32} />
+        </Link>
+        {canEdit ? (
+          <div className="ml-auto mb-16">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button>Add a memory</Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Add a memory</DialogTitle>
+                </DialogHeader>
+                <div className="flex flex-col">
+                  <MemoryForm userId={user.id} />
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
+        ) : null}
+      </nav>
+      <div className="flex flex-col gap-32 md:flex-row mt-8">
         <div className="flex flex-col items-center">
           {user.image ? (
             <div className="rounded-full overflow-hidden h-[200px] w-[200px] shadow">
@@ -82,7 +87,7 @@ export default async function Page({
         </div>
         <div className="flex flex-col flex-1">
           {user.memories.length ? (
-            <ul className="flex flex-col gap-24">
+            <ul className="flex flex-col gap-12 md:gap-24 pb-8">
               {user.memories.map((memory) => (
                 <li className="" key={memory.id}>
                   <div className="mb-2 text-gray-600">
