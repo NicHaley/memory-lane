@@ -20,6 +20,7 @@ import {
   zodResolver,
 } from "@repo/ui/components/form";
 import { Input } from "@repo/ui/components/input";
+import { Textarea } from "@repo/ui/components/text-area";
 import { Button } from "@repo/ui/components/button";
 import { useAction } from "next-safe-action/hooks";
 import { createMemorySchema, type CreateMemorySchema } from "./schema";
@@ -95,7 +96,7 @@ export function MemoryForm({ userId }: MemoryFormProps) {
             <FormItem className="flex-1">
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Input placeholder="" {...field} />
+                <Textarea placeholder="" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
