@@ -14,6 +14,10 @@ import { BoxIcon } from "lucide-react";
 import { getCurrentUser } from "~/lib/auth";
 import Link from "next/link";
 
+async function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export default async function Page({
   params,
 }: {
@@ -39,6 +43,11 @@ export default async function Page({
   }
 
   const canEdit = currentUser?.id === user.id;
+
+  /**
+   * Uncomment to demostrate loading indicators
+   */
+  // await wait(2000);
 
   return (
     <div>
